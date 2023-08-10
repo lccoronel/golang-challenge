@@ -18,18 +18,20 @@ func (responseCEP *ResponseCEP) MarshalJSON() ([]byte, error) {
 // Thread 1
 func main() {
 	canal := make(chan ResponseCEP)
-	var cep string = "06855330"
+	var cep string = "06855-330"
 
 	API1 := "https://cdn.apicep.com/file/apicep/" + cep + ".json"
 	API2 := "https://viacep.com.br/ws/" + cep + "/json/"
 
 	// Thread 2
 	go func() {
+		time.Sleep(time.Second * 2)
 		canal <- *httpGetGEP(API1, 1)
 	}()
 
 	// Thread 3
 	go func() {
+		time.Sleep(time.Second * 2)
 		canal <- *httpGetGEP(API2, 2)
 	}()
 
